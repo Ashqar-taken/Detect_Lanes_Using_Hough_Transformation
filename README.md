@@ -30,6 +30,11 @@ To implement a basic lane detection pipeline using OpenCV by completing missing 
 
 ##  Algorithm & Explanation
 
+##  Developed By
+
+* **Name:** Ashqar Ahamed S T
+* **Register No:** 212224240018
+
 ---
 
 ###  Step 1: Import Libraries
@@ -47,9 +52,8 @@ import matplotlib.pyplot as plt
 ```python
 # Read the image using OpenCV
 
-###
-# Your Code Here
-###
+img = cv2.imread('lan_img1.jpg')
+
 ```
 
 ---
@@ -59,9 +63,8 @@ import matplotlib.pyplot as plt
 ```python
 # Convert to grayscale.
 
-###
-# Your Code Here
-###
+gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+
 ```
 
 ---
@@ -69,11 +72,10 @@ import matplotlib.pyplot as plt
 ###  Step 4: Display Images
 
 ```python
-plt.figure(figsize=(10,5))
+plt.figure(figsize = (20, 10))
+plt.imshow(gray, cmap='gray')
+plt.axis('off')
 
-###
-# Your Code Here
-###
 ```
 
 ---
@@ -83,10 +85,9 @@ plt.figure(figsize=(10,5))
 ```python
 # Apply thresholding
 
-threshold = 
-###
-# Your Code Here
-###
+threshold  = 127
+_, threshold = cv2.threshold(gray, threshold, 255, cv2.THRESH_BINARY)
+
 ```
 
 ---
@@ -105,9 +106,7 @@ threshold =
 ```python
 # Perform Edge Detection
 
-###
-# Your Code Here
-###
+edges = cv2.Canny(roi, 50, 150, apertureSize=3)
 ```
 
 ---
@@ -115,11 +114,9 @@ threshold =
 ###  Step 8: Gaussian Blur
 
 ```python
-# Apply Gaussian Blur
+# Smooth with a Gaussian blur.
 
-###
-# Your Code Here
-###
+canny_blur = cv2.GaussianBlur(edges, (5, 5), 0)
 ```
 
 ---
@@ -129,9 +126,14 @@ threshold =
 ```python
 # Detect lines using Hough Transform
 
-###
-# Your Code Here
-###
+
+
+lines = cv2.HoughLinesP(canny_blur, rho = 1, theta = np.pi/180, threshold = 50, minLineLength = 10, maxLineGap = 15)
+hough = np.zeros((img.shape[0], img.shape[1], 3), dtype = np.uint8)
+draw_lines(hough, lines)
+
+print("Found {} lines, including: {}".format(len(lines), lines[0]))
+plt.figure(figsize = (15, 10)); plt.imshow(hough)
 ```
 
 ---
@@ -148,22 +150,28 @@ threshold =
 ##  Expected Output
 
 * Original image
+    ![alt text](lan_img1.jpg)
+
 * Grayscale image
+    ![alt text](gray.png)
+
 * Thresholded image
+    ![alt text](threshold.png)
+
 * ROI masked image
+    ![alt text](<roi masked.png>)
+
 * Edge detected image
 * Smoothed image
+    ![alt text](<edge and blur.png>)
+
 * Detected lines
+    ![alt text](line.png)
+
 * Final lane detection output
+    ![alt text](final.png)
 
 ---
-
-##  Instructions
-
-* Fill ONLY in `# Your Code Here` sections
-* Do NOT change existing code
-* Run step-by-step
-* Verify outputs
 
 ---
 
@@ -172,8 +180,3 @@ threshold =
 Thus, the lane detection pipeline is successfully implemented by completing the missing code sections. The system detects and highlights lane lines effectively.
 
 ---
-
-##  Developed By
-
-* **Name:** ____________________________
-* **Register No:** ______________________
